@@ -1,6 +1,6 @@
 import pkce, webbrowser
 from http.server import HTTPServer
-from api_data.request_handler import RequestHandler
+from auth.request_handler import RequestHandler
 
 
 # https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow

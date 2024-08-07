@@ -1,5 +1,5 @@
 import typer
-from api_data.authorization import Authorization
+from auth.authorization import Authorization
 
 def main(name: str):
     print(f"Hello, {name}")
