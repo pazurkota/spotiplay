@@ -1,5 +1,6 @@
 import pkce, webbrowser
-import requests as req
+from http.server import HTTPServer
+from api_data.request_handler import RequestHandler
 
 
 # https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow
@@ -10,26 +11,22 @@ class Authorization:
     AUTH_URL = "https://accounts.spotify.com/authorize"
     CODE_CHALLENGE_METHOD = "S256"
 
-    @staticmethod
-    def get_code_verifier():
-        return pkce.generate_code_verifier(128)
+    def __init__(self):
+        self.code_verifier = pkce.generate_code_verifier(128)
+        self.code_challenge = pkce.get_code_challenge(self.code_verifier)
 
-    @staticmethod
-    def get_code_challenge(code_verifier):
-        return pkce.get_code_challenge(code_verifier)
-
-    def request_user_authorization(self):
-        code_verifier = self.get_code_verifier()
-        code_challenge = self.get_code_challenge(code_verifier)
-        auth_url = (
-            f"https://accounts.spotify.com/authorize?client_id={self.CLIENT_ID}"
-            f"&response_type={self.RESPONSE_TYPE}"
-            f"&redirect_uri={self.REDIRECT_URL}"
-            f"&code_challenge_method={self.CODE_CHALLENGE_METHOD}"
-            f"&code_challenge={code_challenge}"
-            f"&state={self.STATE}"
-            f"&scope={self.SCOPE}"
+    def get_authorization_url(self):
+        return (
+            f"{self.AUTH_URL}?response_type=code&client_id={self.CLIENT_ID}&redirect_uri={self.REDIRECT_URL}"
+            f"&scope={self.SCOPE}&code_challenge_method={self.CODE_CHALLENGE_METHOD}&code_challenge={self.code_challenge}"
         )
 
+    def request_user_authorization(self):
+        auth_url = self.get_authorization_url()
         webbrowser.open(auth_url)
-        return code_verifier
+
+    def run_server(self):
+        server_address = ('', 8080)
+        httpd = HTTPServer(server_address, RequestHandler)
+        httpd.code_verifier = self.code_verifier
+        httpd.serve_forever()
