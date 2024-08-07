@@ -5,10 +5,9 @@ import requests as req
 # https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow
 class Authorization:
     CLIENT_ID = "d0e60eac862e474ba69236d407f6023a"
-    REDIRECT_URL = "http://localhost:3000"
+    REDIRECT_URL = "http://localhost:3000/callback"
     SCOPE = "user-read-playback-state user-modify-playback-state user-read-currently-playing"
-    RESPONSE_TYPE = "code"
-    STATE = "34fFs29kd09"
+    AUTH_URL = "https://accounts.spotify.com/authorize"
     CODE_CHALLENGE_METHOD = "S256"
 
     @staticmethod
