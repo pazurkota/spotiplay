@@ -5,10 +5,10 @@ import urllib.parse
 
 class RequestHandler(BaseHTTPRequestHandler):
     TOKEN_URL = "https://accounts.spotify.com/api/token"
-    REDIRECT_URI = "http://localhost:3000/callback"
+    REDIRECT_URI = "http://localhost:8080/callback"
     CLIENT_ID = "d0e60eac862e474ba69236d407f6023a"
 
-    def get_handler(self):
+    def do_GET(self):
         if self.path.startswith("/callback"):
             query_components = urllib.parse.parse_qs(urllib.parse.urlparse(self.path).query)
             code = query_components.get("code")[0]

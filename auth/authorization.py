@@ -6,7 +6,7 @@ from auth.request_handler import RequestHandler
 # https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow
 class Authorization:
     CLIENT_ID = "d0e60eac862e474ba69236d407f6023a"
-    REDIRECT_URL = "http://localhost:3000/callback"
+    REDIRECT_URL = "http://localhost:8080/callback"
     SCOPE = "user-read-playback-state user-modify-playback-state user-read-currently-playing"
     AUTH_URL = "https://accounts.spotify.com/authorize"
     CODE_CHALLENGE_METHOD = "S256"
